@@ -141,7 +141,7 @@ browser.visit(url)
 
 # 2. Create a list to hold the images and titles.
 hemisphere_titles = []
-hemisphere_image_urls = []
+hemisphere_image_url = []
 
 
 # In[17]:

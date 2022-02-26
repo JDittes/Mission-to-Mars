@@ -15,6 +15,7 @@ def scrape_all():
     #headless is whether use can see the work, if True, then it's in the background
 
     news_title, news_paragraph = mars_news(browser)
+    hemispheres = martian_hemispheres(browser)
 
     # Run all scraping functions and store results in dictionary
     data = {
@@ -22,9 +23,8 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        'hemisphere': hemisphere_titles,
-        'hemisphere_url': hemisphere_image_urls
-        "last_modified": dt.datetime.now()
+        'martian_hemispheres': hemispheres(),
+        'last_modified' : dt.datetime.now()
     }
 
     browser.quit()
@@ -103,12 +103,51 @@ def mars_facts():
     df = pd.read_html('https://galaxyfacts-mars.com')[0]
     df.columns=['description', 'Mars', 'Earth']
     df.set_index('description', inplace=True)
-    #read_html goes to the correct site to look for tables [0] is the 1st table
-    #df.columns assigns 3 columns for the new df
-    #set_index sets 'description' as the index
 
     return df.to_html(classes="table table-striped")
     #this will put the df back into html format
+
+def martian_hemispheres(browser):
+    url = 'https://marshemispheres.com/'
+    browser.visit(url)
+
+    hemisphere_titles = []
+    hemisphere_image_urls= []
+
+    # 3a. Write code to retrieve the titles for each hemisphere.
+    hemisphere_titles = browser.find_by_css('h3')
+
+    links = browser.find_by_css('a.product-item img')
+
+    hemispheres = {}
+
+    html = browser.html
+    img_soup = soup(html, 'html.parser')
+
+    # 3b. Write code to retrieve the image urls for each hemisphere.
+    for link in range(len(links)):
+
+        hemisphere_titles = browser.find_by_css('h3')[link].text
+
+        #a) click on each hemisphere link    
+        browser.find_by_css('a.product-item img')[link].click()
+
+        #b) navigate to the full-resolution image page
+        #hemisphere_url = img_soup.find("div", class_="downloads").find("li").find("a")['href']
+        hemisphere_url = browser.find_by_text("Sample")['href']
+
+        #c)retrieve the full-resolution image URL string and title for the hemisphere image,
+        #hemisphere_url = f'https://marshemispheres.com/{hemisphere_url}'
+ 
+        #Creates the dictionary
+        hemispheres[hemisphere_titles] = hemisphere_url
+
+        #d) use browser.back() to navigate back to the beginning to get the next hemisphere image
+        browser.back()
+
+        browser.quit()
+
+
 
 if __name__ == "__main__":
     
