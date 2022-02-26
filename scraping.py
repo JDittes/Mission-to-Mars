@@ -23,7 +23,7 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        'martian_hemispheres': hemispheres(),
+        'martian_hemispheres': hemispheres,
         'last_modified' : dt.datetime.now()
     }
 
@@ -119,7 +119,7 @@ def martian_hemispheres(browser):
 
     links = browser.find_by_css('a.product-item img')
 
-    hemispheres = {}
+    hemispheres = []
 
     html = browser.html
     img_soup = soup(html, 'html.parser')
@@ -127,7 +127,9 @@ def martian_hemispheres(browser):
     # 3b. Write code to retrieve the image urls for each hemisphere.
     for link in range(len(links)):
 
-        hemisphere_titles = browser.find_by_css('h3')[link].text
+        mars_hemi = {}
+
+        hemisphere_title = browser.find_by_css('h3')[link].text
 
         #a) click on each hemisphere link    
         browser.find_by_css('a.product-item img')[link].click()
@@ -140,14 +142,20 @@ def martian_hemispheres(browser):
         #hemisphere_url = f'https://marshemispheres.com/{hemisphere_url}'
  
         #Creates the dictionary
-        hemispheres[hemisphere_titles] = hemisphere_url
+        mars_hemi = {
+            'hemisphere_title' : hemisphere_title,
+            'hemisphere_url' : hemisphere_url
+        }
+
+        hemispheres.append(mars_hemi)
+        #hemispheres[hemisphere_titles] = hemisphere_url
 
         #d) use browser.back() to navigate back to the beginning to get the next hemisphere image
         browser.back()
+    
+    browser.quit()
 
-        browser.quit()
-
-
+    return hemispheres
 
 if __name__ == "__main__":
     

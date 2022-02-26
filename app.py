@@ -1,3 +1,4 @@
+from distutils.log import debug
 from flask import Flask, render_template, redirect, url_for
 from flask_pymongo import PyMongo
 import scraping
@@ -31,5 +32,5 @@ def scrape():
 #$set is the tag as a key, then the value
 
 if __name__ == "__main__":
-   app.run()
+   app.run(debug = True)
 #standard code to run Flask 

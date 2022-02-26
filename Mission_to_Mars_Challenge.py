@@ -192,7 +192,6 @@ for link in range(len(links)):
 
     #c)retrieve the full-resolution image URL string and title for the hemisphere image,
 #    hemisphere_url = f'https://marshemispheres.com/{hemisphere_url}'
-    #Add url to list hemisphere_image_urls
     
     #get a new set of titles to insert in the dictionary
     hemispheres[hemisphere_titles] = hemisphere_url
