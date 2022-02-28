@@ -149,37 +149,30 @@ hemisphere_image_url = []
 
 # 3a. Write code to retrieve the titles for each hemisphere.
 hemisphere_titles = browser.find_by_css('h3')
+#hemisphere_titles = [item.replace(" Enhanced", "") for item in hemisphere_titles]
 #Seems lik3 h3 would be mentioned here, somewhere
 
 for h in hemisphere_titles:    
     print(h.text)
 
 
-# In[18]:
-
-
-# #b) navigate to the full-resolution image page
-# hemisphere_url = img_soup.find("div", class_="downloads").find("li").find("a")['href']
-
-# #c)retrieve the full-resolution image URL string and title for the hemisphere image,
-# hemisphere_image_urls = f'https://marshemispheres.com/{hemisphere_url}'
-# #Add url to list hemisphere_image_urls
-
-# hemisphere_image_urls
-
-
-# In[19]:
+# In[22]:
 
 
 links = browser.find_by_css('a.product-item img')
 
-hemispheres = {}
-
 html = browser.html
-img_soup = soup(html, 'html.parser')
+
+hemisphere_list = []
 
 # 3b. Write code to retrieve the image urls for each hemisphere.
 for link in range(len(links)):
+
+    
+    url = 'https://marshemispheres.com/'
+    browser.visit(url)
+
+    img_soup = soup(html, 'html.parser')
 
     hemisphere_titles = browser.find_by_css('h3')[link].text
 
@@ -187,34 +180,33 @@ for link in range(len(links)):
     browser.find_by_css('a.product-item img')[link].click()
 
     #b) navigate to the full-resolution image page
-#    hemisphere_url = img_soup.find("div", class_="downloads").find("li").find("a")['href']
+    #hemisphere_url = img_soup.find("div", class_="downloads").find("li").find("a")['href']
     hemisphere_url = browser.find_by_text("Sample")['href']
-
-    #c)retrieve the full-resolution image URL string and title for the hemisphere image,
-#    hemisphere_url = f'https://marshemispheres.com/{hemisphere_url}'
     
     #get a new set of titles to insert in the dictionary
-    hemispheres[hemisphere_titles] = hemisphere_url
-    # Dictionary to be inserted as a MongoDB document
-#     hemispheres = {
-#         'title': hemisphere_titles,
-#         'url': hemisphere_url
-#     }
-        
-#     hemisphere_image_urls.append()
-#     hemisphere_titles.append()
-        
+    hemispheres = {
+        'title': hemisphere_titles,
+        'url': hemisphere_url
+    }
+    hemisphere_list.append(hemispheres)
+#hemispheres[hemisphere_titles] = hemisphere_url
     
     #d) use browser.back() to navigate back to the beginning to get the next hemisphere image
     browser.back()
 
-print(hemispheres)
+print(hemisphere_list)
     #Use print statements to observe
     #List of dictionaries
 
 
-# In[20]:
+# In[ ]:
 
 
 browser.quit()
+
+
+# In[ ]:
+
+
+
 
