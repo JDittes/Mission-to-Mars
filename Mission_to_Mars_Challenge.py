@@ -93,7 +93,7 @@ img_soup = soup(html, 'html.parser')
 
 
 # Find the relative image url
-img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
+featured_image = img_soup.find('img', class_='fancybox-image').get('src')
 img_url_rel
 #get('src') gets the link to the pic. Note that this doesn't include the full link
 

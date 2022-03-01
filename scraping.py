@@ -79,17 +79,18 @@ def featured_image(browser):
 
     # Find the relative image url
     img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
-    img_url_rel
     #get('src') gets the link to the pic. Note that this doesn't include the full link
 
     # Use the base URL to create an absolute URL
     img_url = f'https://spaceimages-mars.com/{img_url_rel}'
-    try:
-    # find the relative image url
-        img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
-
-    except AttributeError:
-        return None
+# =============================================================================
+#     try:
+#     # find the relative image url
+#         img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
+# 
+#     except AttributeError:
+#         return None
+# =============================================================================
 #This is how to get the full address
 
 def mars_facts():
@@ -111,9 +112,6 @@ def martian_hemispheres(browser):
     url = 'https://marshemispheres.com/'
     browser.visit(url)
 
-    hemisphere_titles = []
-    hemisphere_image_urls= []
-
     # 3a. Write code to retrieve the titles for each hemisphere.
     hemisphere_titles = browser.find_by_css('h3')
 
@@ -126,8 +124,6 @@ def martian_hemispheres(browser):
 
     # 3b. Write code to retrieve the image urls for each hemisphere.
     for link in range(len(links)):
-
-        mars_hemi = {}
 
         hemisphere_title = browser.find_by_css('h3')[link].text
 
@@ -153,8 +149,6 @@ def martian_hemispheres(browser):
         #d) use browser.back() to navigate back to the beginning to get the next hemisphere image
         browser.back()
     
-    browser.quit()
-
     return hemispheres
 
 if __name__ == "__main__":
