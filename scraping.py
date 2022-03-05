@@ -23,7 +23,7 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        'martian_hemispheres': hemispheres,
+        'hemispheres': hemispheres,
         'last_modified' : dt.datetime.now()
     }
 
@@ -78,20 +78,22 @@ def featured_image(browser):
     img_soup = soup(html, 'html.parser')
 
     # Find the relative image url
-    img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
+    #img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
     #get('src') gets the link to the pic. Note that this doesn't include the full link
 
     # Use the base URL to create an absolute URL
-    img_url = f'https://spaceimages-mars.com/{img_url_rel}'
 # =============================================================================
-#     try:
-#     # find the relative image url
-#         img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
-# 
-#     except AttributeError:
-#         return None
-# =============================================================================
+    try:
+    # find the relative image url
+        img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
+
+    except AttributeError:
+        return None
+# # =============================================================================
 #This is how to get the full address
+    img_url = f'https://spaceimages-mars.com/{img_url_rel}'
+
+    return img_url
 
 def mars_facts():
 

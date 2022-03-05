@@ -69,7 +69,7 @@ news_p
 
 
 # Visit URL
-url = 'https://spaceimages-mars.com'
+url = 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/index.html'
 browser.visit(url)
 
 
